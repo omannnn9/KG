@@ -4,6 +4,7 @@ import { About } from './sections/About';
 import { Contact } from './sections/Contact';
 import { Footer } from './sections/Footer';
 import { Hero } from './sections/Hero';
+import { Interlude } from './sections/Interlude';
 import { Services } from './sections/Services';
 
 export default function App() {
@@ -20,6 +21,7 @@ export default function App() {
       <main id="main">
         <About />
         <Services />
+        <Interlude />
         <Contact ctaRef={contactCta} />
       </main>
       <Footer />

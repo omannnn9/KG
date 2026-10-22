@@ -5,7 +5,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { business, email, owner, phone, vcard } from '../src/config/contact.ts';
+import { business, email, instagram, owner, phone, vcard } from '../src/config/contact.ts';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -34,6 +34,8 @@ const lines = [
   `TEL;TYPE=CELL,VOICE,PREF:${phone.e164}`,
   `EMAIL;TYPE=INTERNET,WORK:${email.address}`,
   `URL;TYPE=WhatsApp:https://wa.me/${phone.e164.replace('+', '')}`,
+  `X-SOCIALPROFILE;TYPE=instagram:${instagram.href}`,
+  `URL;TYPE=Instagram:${instagram.href}`,
   `PHOTO;ENCODING=b;TYPE=JPEG:${photo}`,
   'END:VCARD',
 ];

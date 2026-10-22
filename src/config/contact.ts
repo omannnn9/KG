@@ -42,3 +42,9 @@ export const email = {
 export const vcard = {
   fileName: 'ketan-gungah-kg-rentals.vcf',
 } as const;
+
+// Supplied by the owner; used exactly as given.
+export const instagram = {
+  href: 'https://www.instagram.com/official_ketan_gungah/',
+  handle: '@official_ketan_gungah',
+} as const;

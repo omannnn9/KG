@@ -21,7 +21,8 @@ Rejected from the generated system: glassmorphism (the brief says no, and it add
 | `--text` | #17211f | Body text (14.5:1 on sand) |
 | `--text-muted` | #4f5b58 | Secondary text (6.2:1 on sand) |
 | `--gold-400` | #d2b062 | Rules, ring, eyebrows on dark (7.4:1 on ink) |
-| `--gold-700` | #86651e | Eyebrows and indices on sand (4.75:1) |
+| `--gold-700` | #7d5e1c | Eyebrows and indices on sand and mist (≥4.9:1) |
+| `--mist` | #e4eae9 | Sea-mist taken from the brochure beach photo's sky; services fade into it |
 | `--whatsapp` | #25d366 | The WhatsApp badge only, so the action is recognisable |
 
 ## Typography
@@ -51,10 +52,19 @@ Rejected from the generated system: glassmorphism (the brief says no, and it add
 - Coastline texture: the brochure cover photograph, with the baked-in logo and strapline removed. It only ever shows as the frame.
 - Logo: keyed out of the brochure cover (no vector was supplied). It is only placed on dark surfaces, because the pale "KG" letterforms lose contrast on sand.
 
-## Motion
+## Coastal atmosphere
 
-React Bits `FadeContent` (GSAP) is used three times: the portrait "develops" from greyscale on load (1.4s), and the principles and service stages fade in with a 80ms stagger when scrolled into view. Headlines, CTAs and contact details never animate. Hover transitions run at 160–240ms. With `prefers-reduced-motion`, everything renders in its final state.
+Taken from the brochure, not added as decoration. The brochure moves from the dark aerial coastline on its cover to the sunlit beach on its "About us" page, and the page follows the same arc. It opens on the dark coastline panel and, after the services, crosses a sea-mist gradient into the brochure's beach photograph, which fades in from the mist with no hard edge. The brochure line "Our hands-on approach…" sits above it as a quote. The contact panel then closes the page in the same frame as the hero. The palette gains one colour, `--mist`. Turquoise appears only inside the photograph.
+
+## Motion (React Bits)
+
+- `LightRays`: a warm (#f3dfae), slow, low-intensity shaft of light from the top right of the hero, like sun through water. It loads lazily as its own 5 kB chunk, renders at 1× pixel ratio, pauses when off screen or in a hidden tab, and is not rendered at all with `prefers-reduced-motion`. Pointer-following, cursor shadow and click pulses are switched off.
+- `FadeContent`: the portrait "develops" from greyscale on load. The name, headline and lede settle in with a short blur and stagger (0.8s). The principles and service stages fade in on scroll. The WhatsApp, Call and Save buttons are never animated.
+- `GlareHover`: a single soft glint passes over the re-set business card when it scrolls into view (once), and again on hover, like light on a laminated card.
+- CSS only: underline draw on nav and Instagram links, a colour shift on service titles when hovered, button press scale. Timing is 160–240ms.
+
+With `prefers-reduced-motion`, everything renders in its final state.
 
 ## Accessibility
 
-Contrast pairs are listed above. The page has a skip link, visible focus states, and 44px+ targets (the WhatsApp CTA is 60px). Decorative icons are `aria-hidden`, and the external WhatsApp links announce "opens WhatsApp". When it is hidden, the floating button is removed from the tab order. Headings run in order h1 → h2 → h3.
+Contrast pairs are listed above. External links (WhatsApp, Instagram) open in a new tab with `rel="noopener noreferrer"` and announce it. The Instagram icon always sits beside visible text ("Instagram" or the handle). The page has a skip link, visible focus states, and 44px+ targets (the WhatsApp CTA is 60px). Decorative icons are `aria-hidden`, and the external WhatsApp links announce "opens WhatsApp". When it is hidden, the floating button is removed from the tab order. Headings run in order h1 → h2 → h3.

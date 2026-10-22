@@ -14,12 +14,14 @@
   --sand-100: #f5f0e7;
   --sand-200: #ece4d6;
   --line: #d9cfbd;
+  /* Pale sea-mist taken from the sky and shallows of the brochure's beach photograph. */
+  --mist: #e4eae9;
   --line-dark: rgb(247 242 233 / 0.2);
   --text: #17211f;
   --text-muted: #4f5b58;
   --gold-300: #e1c47e;
   --gold-400: #d2b062;
-  --gold-700: #86651e;
+  --gold-700: #7d5e1c;
   --whatsapp: #25d366;
 
   /* Type */
@@ -182,7 +184,9 @@ a {
 
 .panel {
   position: relative;
-  background: var(--ink-900);
+  background:
+    radial-gradient(110% 70% at 88% 0%, rgb(46 104 98 / 0.32) 0%, transparent 62%),
+    linear-gradient(180deg, var(--ink-900) 0%, #0d2524 100%);
   color: var(--paper);
   overflow: hidden;
 }
@@ -344,6 +348,13 @@ a {
   min-height: calc(100svh - 2 * var(--frame));
 }
 
+.hero__light {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
 .topbar {
   position: relative;
   z-index: 2;
@@ -410,6 +421,8 @@ a {
 }
 
 .hero__grid {
+  position: relative;
+  z-index: 1;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -419,7 +432,7 @@ a {
   position: relative;
   display: flex;
   justify-content: center;
-  height: clamp(240px, 36svh, 360px);
+  height: clamp(220px, 33svh, 360px);
   overflow: hidden;
   -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
@@ -458,17 +471,48 @@ a {
 .hero__person {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--space-1) var(--space-3);
+  align-items: center;
+  gap: 0 var(--space-5);
   margin-bottom: var(--space-4);
   font-size: var(--step-sm);
+}
+
+.hero__person p {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-3);
+}
+
+.hero__social {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 40px;
+  color: var(--seaglass);
+  font-weight: 500;
+  text-decoration: none;
+  transition: color var(--dur) var(--ease-out);
+}
+
+.hero__social:hover {
+  color: var(--paper);
+}
+
+.hero__social span:not(.visually-hidden) {
+  background: linear-gradient(currentColor, currentColor) left 100% / 0 1px no-repeat;
+  transition: background-size var(--dur) var(--ease-out);
+}
+
+.hero__social:hover span:not(.visually-hidden) {
+  background-size: 100% 1px;
 }
 
 .hero__person::after {
   content: '';
   flex: 0 0 100%;
   height: 1px;
-  margin-top: var(--space-2);
+  margin-top: var(--space-1);
   background: linear-gradient(to right, var(--gold-400) 56px, transparent 56px);
 }
 
@@ -488,6 +532,11 @@ a {
   line-height: 1.05;
   letter-spacing: -0.015em;
   text-wrap: balance;
+}
+
+.hero__headline em {
+  color: var(--gold-300);
+  font-style: italic;
 }
 
 .hero__lede {
@@ -534,7 +583,7 @@ a {
   }
 
   .hero__headline {
-    max-width: 16ch;
+    max-width: 18ch;
   }
 
   .hero__lede {
@@ -634,7 +683,22 @@ a {
 
 /* Services */
 .services {
-  background: var(--sand-100);
+  padding-bottom: var(--space-8);
+  background: linear-gradient(180deg, var(--sand-100) 0%, var(--sand-100) 55%, var(--mist) 100%);
+}
+
+.stage {
+  transition: border-color var(--dur) var(--ease-out);
+}
+
+.stage__title {
+  transition: color var(--dur) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .stage:hover .stage__title {
+    color: var(--lagoon-700);
+  }
 }
 
 .services__head {
@@ -730,7 +794,7 @@ a {
   padding: var(--space-2) var(--space-4);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: var(--sand-50);
+  background: rgb(250 247 241 / 0.7);
   font-size: var(--step-sm);
   font-weight: 500;
 }
@@ -795,6 +859,102 @@ a {
   color: var(--seaglass);
 }
 
+/* Interlude: the brochure's beach, dissolving out of the sea-mist above it. */
+.interlude {
+  background: var(--mist);
+  padding-top: var(--space-6);
+}
+
+.interlude__quote {
+  max-width: 34rem;
+  margin: 0;
+  padding-left: var(--space-5);
+  border-left: 1px solid var(--gold-400);
+}
+
+.interlude__quote p {
+  font-family: var(--font-display);
+  font-size: clamp(1.375rem, 1.1rem + 1.2vw, 2rem);
+  font-style: italic;
+  line-height: 1.3;
+  color: var(--ink-900);
+  text-wrap: pretty;
+}
+
+.interlude__quote footer {
+  margin-top: var(--space-4);
+  color: var(--text-muted);
+  font-size: var(--step-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.interlude__photo img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 800 / 601;
+  max-height: 72vh;
+  margin-top: calc(-1 * var(--space-5));
+  object-fit: cover;
+  object-position: 70% 60%;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgb(0 0 0 / 0.55) 22%, #000 42%);
+  mask-image: linear-gradient(to bottom, transparent 0%, rgb(0 0 0 / 0.55) 22%, #000 42%);
+}
+
+@media (min-width: 640px) {
+  .interlude__photo img {
+    aspect-ratio: 1280 / 692;
+    object-position: center 65%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .interlude {
+    padding-top: var(--space-6);
+  }
+
+  .interlude__photo img {
+    margin-top: calc(-1 * var(--space-9));
+  }
+}
+
+.contact__social {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  margin-top: var(--space-4);
+  color: var(--seaglass);
+  font-size: var(--step-sm);
+  text-decoration: none;
+  transition: color var(--dur) var(--ease-out);
+}
+
+.contact__handle {
+  color: var(--paper);
+  font-weight: 500;
+}
+
+.contact__social:hover {
+  color: var(--paper);
+}
+
+.contact__social:hover .contact__handle {
+  text-decoration: underline;
+  text-decoration-color: var(--gold-400);
+  text-underline-offset: 4px;
+}
+
+/* GlareHover wrapper around the re-set card; the shadow lives here because the wrapper clips. */
+.glare-hover.card-glare {
+  display: block;
+  width: 100%;
+  max-width: 460px;
+  border: 0;
+  box-shadow: 0 24px 48px -24px rgb(0 0 0 / 0.6);
+}
+
 /* The physical card, re-set: coastline border, dark inset, gold detailing. */
 .card {
   position: relative;
@@ -810,7 +970,6 @@ a {
   background:
     linear-gradient(var(--ink-950), var(--ink-950)) padding-box,
     var(--ink-800) url('/images/coast-aerial-slice.webp') center / cover border-box;
-  box-shadow: 0 24px 48px -24px rgb(0 0 0 / 0.6);
 }
 
 .card__text {
@@ -944,6 +1103,20 @@ a {
   font-size: var(--step-lg);
 }
 
+.footer__social {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  justify-self: start;
+  text-decoration: none;
+}
+
+.footer__social:hover span {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .footer a {
   color: var(--paper);
   text-underline-offset: 3px;
@@ -967,6 +1140,10 @@ a {
   .footer__copy {
     grid-column: 2;
     grid-row: 1;
+  }
+
+  .footer__social {
+    justify-self: end;
   }
 }
 

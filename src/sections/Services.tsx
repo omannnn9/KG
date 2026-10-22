@@ -1,4 +1,4 @@
-import FadeContent from '../components/FadeContent';
+import FadeContent from '../components/reactbits/FadeContent';
 
 // The eleven services from the brochure's "Our services" page, grouped by when an owner needs them.
 // Item names are kept as printed; the group summaries only describe what the items already say.

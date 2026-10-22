@@ -1,4 +1,4 @@
-import FadeContent from '../components/FadeContent';
+import FadeContent from '../components/reactbits/FadeContent';
 import { business, owner } from '../config/contact';
 
 // Every principle restates a point made in the brochure's "Why choose us" and "About us" pages.
@@ -35,8 +35,8 @@ export function About() {
             high-standard management service, designed to protect long-term value and optimise returns.
           </p>
           <p>
-            Its hands-on approach means attentive oversight and timely execution, so owners can enjoy peace of mind while
-            the day-to-day running of their property is taken care of.
+            Its hands-on approach means attentive oversight, timely execution and consistently high standards across
+            every property it manages.
           </p>
         </div>
 
