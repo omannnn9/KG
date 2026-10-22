@@ -2,6 +2,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { ContactActions } from '../components/ContactActions';
 import { InstagramIcon } from '../components/InstagramIcon';
 import { Reveal } from '../components/Reveal';
+import { SectionTitle } from '../components/SectionTitle';
 import GlareHover from '../components/reactbits/GlareHover';
 import { business, email, instagram, owner, phone } from '../config/contact';
 
@@ -15,9 +16,7 @@ export function Contact({ ctaRef }: { ctaRef: React.Ref<HTMLAnchorElement> }) {
           <div className="contact__copy">
             <Reveal stagger={0.07}>
               <p className="eyebrow eyebrow--on-dark">Contact</p>
-              <h2 id="contact-title" className="section__title">
-                Speak with Ketan directly.
-              </h2>
+              <SectionTitle id="contact-title">Speak with Ketan directly.</SectionTitle>
               <p className="contact__lede">
                 Whether you own a property that needs managing or have a question about a rental, a short WhatsApp
                 message is the quickest way to start.

@@ -1,4 +1,5 @@
 import { Reveal } from '../components/Reveal';
+import { SectionTitle } from '../components/SectionTitle';
 import { business, owner } from '../config/contact';
 
 // Every principle restates a point made in the brochure's "Why choose us" and "About us" pages.
@@ -27,9 +28,9 @@ export function About() {
       <div className="container about__grid">
         <Reveal className="about__intro" stagger={0.07}>
           <p className="eyebrow">About {business.shortName}</p>
-          <h2 id="about-title" className="section__title">
+          <SectionTitle id="about-title">
             Your property is a valuable asset — and it is treated accordingly.
-          </h2>
+          </SectionTitle>
           <p>
             {business.name} is led by its director, {owner.displayName}. The firm offers a discreet, professional and
             high-standard management service, designed to protect long-term value and optimise returns.

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ArrowUpRight, Check, Phone, UserRoundPlus } from 'lucide-react';
 import { phone, vcard, whatsapp } from '../config/contact';
+import ClickSpark from './reactbits/ClickSpark';
 import { WhatsAppIcon } from './WhatsAppIcon';
 
 const vcardHref = `${import.meta.env.BASE_URL}${vcard.fileName}`;
@@ -55,7 +56,17 @@ export function WhatsAppButton({ tone, primaryRef }: Props) {
 export function ContactActions({ tone, primaryRef }: Props) {
   const [saved, confirmSaved] = useConfirmation(3000);
   return (
-    <div className={`actions actions--${tone}`}>
+    // React Bits ClickSpark: a small burst of gold sparks where a contact action is tapped.
+    // Purely visual, drawn under pointer-events: none, so the links fire exactly as before.
+    <ClickSpark
+      className={`actions actions--${tone}`}
+      style={{ height: 'auto' }}
+      sparkColor={['#e1c47e', '#f3dfae']}
+      sparkSize={7}
+      sparkRadius={22}
+      sparkCount={8}
+      duration={450}
+    >
       <WhatsAppButton tone={tone} primaryRef={primaryRef} />
       <div className="actions__secondary">
         <a className="btn btn--quiet" href={phone.href}>
@@ -74,6 +85,6 @@ export function ContactActions({ tone, primaryRef }: Props) {
           <span aria-live="polite">{saved ? 'Contact card ready' : 'Save contact'}</span>
         </a>
       </div>
-    </div>
+    </ClickSpark>
   );
 }
