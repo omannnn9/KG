@@ -3,8 +3,9 @@ import { whatsapp } from '../config/contact';
 import { WhatsAppIcon } from './WhatsAppIcon';
 
 /**
- * A compact WhatsApp shortcut that appears once both full-size WhatsApp buttons
- * (hero and contact) are off screen, so the main action is always one tap away.
+ * A WhatsApp shortcut that appears once both full-size WhatsApp buttons (hero and contact)
+ * are off screen, so the main action is always one tap away. Phones get a slim bar docked
+ * above the safe area; wider screens get a small pill in the corner.
  */
 export function FloatingWhatsApp({ watch }: { watch: RefObject<HTMLElement | null>[] }) {
   const [visible, setVisible] = useState(false);
@@ -32,8 +33,9 @@ export function FloatingWhatsApp({ watch }: { watch: RefObject<HTMLElement | nul
       tabIndex={visible ? 0 : -1}
     >
       <WhatsAppIcon size={22} />
-      <span>WhatsApp</span>
-      <span className="visually-hidden"> Ketan (opens WhatsApp)</span>
+      <span className="floating-wa__long">Message Ketan on WhatsApp</span>
+      <span className="floating-wa__short">WhatsApp</span>
+      <span className="visually-hidden"> (opens WhatsApp)</span>
     </a>
   );
 }

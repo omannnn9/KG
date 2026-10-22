@@ -1,4 +1,4 @@
-import FadeContent from '../components/reactbits/FadeContent';
+import { Reveal } from '../components/Reveal';
 
 // The eleven services from the brochure's "Our services" page, grouped by when an owner needs them.
 // Item names are kept as printed; the group summaries only describe what the items already say.
@@ -33,13 +33,19 @@ const stages = [
 
 // From the brochure's "Additional services" page. The brochure marks Expatriation with an
 // asterisk but does not print the footnote, so the page asks visitors to enquire.
-const additional = ['Licensing and permits', 'Property photo shoot', 'Company set-up', 'Accounting services', 'Expatriation*'];
+const additional = [
+  'Licensing and permits',
+  'Property photo shoot',
+  'Company set-up',
+  'Accounting services',
+  'Expatriation*',
+];
 
 export function Services() {
   return (
     <section className="section services" id="services" aria-labelledby="services-title">
       <div className="container">
-        <div className="services__head">
+        <Reveal className="services__head" stagger={0.07}>
           <p className="eyebrow">Services</p>
           <h2 id="services-title" className="section__title">
             What KG takes care of
@@ -47,11 +53,12 @@ export function Services() {
           <p className="services__intro">
             One point of contact for the full life of a rental — so the owner never has to manage the details alone.
           </p>
-        </div>
+        </Reveal>
 
-        <FadeContent className="stages" stagger={0.08} duration={0.7} threshold={0.1}>
+        {/* Each stage rises as it reaches the reader, so the list unfolds with the scroll. */}
+        <div className="stages">
           {stages.map((stage, index) => (
-            <article className="stage" key={stage.title}>
+            <Reveal className="stage" key={stage.title} distance={24} threshold={0.08}>
               <span className="stage__index" aria-hidden="true">
                 {String(index + 1).padStart(2, '0')}
               </span>
@@ -64,17 +71,19 @@ export function Services() {
                   <li key={item}>{item}</li>
                 ))}
               </ul>
-            </article>
+            </Reveal>
           ))}
-        </FadeContent>
+        </div>
 
         <div className="additional">
           <h3 className="additional__title">Additional services</h3>
-          <ul className="additional__list">
+          <Reveal className="additional__list" role="list" stagger={0.04} distance={14} duration={0.6}>
             {additional.map(item => (
-              <li key={item}>{item}</li>
+              <span className="additional__item" role="listitem" key={item}>
+                {item}
+              </span>
             ))}
-          </ul>
+          </Reveal>
           <p className="additional__note">*Ask Ketan for details on expatriation services.</p>
         </div>
       </div>

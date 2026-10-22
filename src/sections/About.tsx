@@ -1,4 +1,4 @@
-import FadeContent from '../components/reactbits/FadeContent';
+import { Reveal } from '../components/Reveal';
 import { business, owner } from '../config/contact';
 
 // Every principle restates a point made in the brochure's "Why choose us" and "About us" pages.
@@ -25,7 +25,7 @@ export function About() {
   return (
     <section className="section about" id="about" aria-labelledby="about-title">
       <div className="container about__grid">
-        <div className="about__intro">
+        <Reveal className="about__intro" stagger={0.07}>
           <p className="eyebrow">About {business.shortName}</p>
           <h2 id="about-title" className="section__title">
             Your property is a valuable asset — and it is treated accordingly.
@@ -38,16 +38,16 @@ export function About() {
             Its hands-on approach means attentive oversight, timely execution and consistently high standards across
             every property it manages.
           </p>
-        </div>
+        </Reveal>
 
-        <FadeContent className="principles" stagger={0.08} duration={0.7} threshold={0.15}>
+        <Reveal className="principles" stagger={0.08}>
           {principles.map(item => (
             <div className="principles__item" key={item.title}>
               <h3>{item.title}</h3>
               <p>{item.text}</p>
             </div>
           ))}
-        </FadeContent>
+        </Reveal>
       </div>
     </section>
   );

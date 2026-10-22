@@ -17,7 +17,9 @@ export function Footer() {
           <span>Instagram</span>
           <span className="visually-hidden"> {instagram.handle} (opens in a new tab)</span>
         </a>
-        <p className="footer__copy">© {year} {business.shortName}</p>
+        <p className="footer__copy">
+          © {year} {business.shortName}
+        </p>
       </div>
     </footer>
   );
