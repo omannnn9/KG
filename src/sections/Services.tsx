@@ -1,3 +1,5 @@
+import { useId, useState } from 'react';
+import { ChevronDown } from 'lucide-react';
 import { Reveal } from '../components/Reveal';
 
 // The eleven services from the brochure's "Our services" page, grouped by when an owner needs them.
@@ -42,9 +44,14 @@ const additional = [
 ];
 
 export function Services() {
+  // The stages read as a timeline of a tenancy. One is open at a time; the first starts open
+  // so the section never looks empty, and every stage is one tap (or Enter/Space) away.
+  const [open, setOpen] = useState(0);
+  const baseId = useId();
+
   return (
     <section className="section services" id="services" aria-labelledby="services-title">
-      <div className="container">
+      <div className="container services__layout">
         <Reveal className="services__head" stagger={0.07}>
           <p className="eyebrow">Services</p>
           <h2 id="services-title" className="section__title">
@@ -55,25 +62,46 @@ export function Services() {
           </p>
         </Reveal>
 
-        {/* Each stage rises as it reaches the reader, so the list unfolds with the scroll. */}
-        <div className="stages">
-          {stages.map((stage, index) => (
-            <Reveal className="stage" key={stage.title} distance={24} threshold={0.08}>
-              <span className="stage__index" aria-hidden="true">
-                {String(index + 1).padStart(2, '0')}
-              </span>
-              <div className="stage__body">
-                <h3 className="stage__title">{stage.title}</h3>
-                <p className="stage__summary">{stage.summary}</p>
+        <Reveal className="timeline" stagger={0.08} distance={20}>
+          {stages.map((stage, index) => {
+            const isOpen = open === index;
+            const panelId = `${baseId}-panel-${index}`;
+            const buttonId = `${baseId}-button-${index}`;
+            return (
+              <div className="stage" data-open={isOpen || undefined} key={stage.title}>
+                <h3 className="stage__heading">
+                  <button
+                    type="button"
+                    id={buttonId}
+                    className="stage__toggle"
+                    aria-expanded={isOpen}
+                    aria-controls={panelId}
+                    onClick={() => setOpen(isOpen ? -1 : index)}
+                  >
+                    <span className="stage__index" aria-hidden="true">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <span className="stage__title">{stage.title}</span>
+                    <span className="stage__count">
+                      {stage.items.length} {stage.items.length === 1 ? 'service' : 'services'}
+                    </span>
+                    <ChevronDown className="stage__chevron" size={20} aria-hidden="true" />
+                  </button>
+                </h3>
+                <div className="stage__panel" id={panelId} role="region" aria-labelledby={buttonId} inert={!isOpen}>
+                  <div className="stage__panel-inner">
+                    <p className="stage__summary">{stage.summary}</p>
+                    <ul className="stage__items">
+                      {stage.items.map(item => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
               </div>
-              <ul className="stage__items">
-                {stage.items.map(item => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </Reveal>
-          ))}
-        </div>
+            );
+          })}
+        </Reveal>
 
         <div className="additional">
           <h3 className="additional__title">Additional services</h3>

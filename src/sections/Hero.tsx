@@ -1,8 +1,9 @@
-import { lazy, Suspense } from 'react';
-import { Phone } from 'lucide-react';
+import { lazy, Suspense, useRef } from 'react';
+import { ArrowDown, Phone } from 'lucide-react';
 import { ContactActions } from '../components/ContactActions';
 import { HeadlineReveal } from '../components/HeadlineReveal';
 import { InstagramIcon } from '../components/InstagramIcon';
+import { usePointerDepth } from '../components/usePointerDepth';
 import { useReducedMotion } from '../components/useReducedMotion';
 import { business, instagram, owner, phone } from '../config/contact';
 
@@ -14,19 +15,23 @@ const img = (path: string) => `${import.meta.env.BASE_URL}images/${path}`;
 /*
  * Opening sequence (≈1.3s, everything is tappable from the first frame):
  *   0.0s  warm colour field settles into the deep lagoon tone; sunlight opens
- *   0.1s  portrait is unveiled from the top down
- *   0.35s headline rises line by line
- *   0.6s  name, Instagram and lede follow
- *   0.8s  contact actions finish
+ *   0.1s  portrait is unveiled from the top down, the gold ring draws around it
+ *   0.3s  name and Instagram
+ *   0.45s headline rises line by line
+ *   0.75s lede
+ *   0.9s  contact actions; a single light sheen crosses the WhatsApp button at ≈1.4s
+ * On desktop the portrait, ring and light then follow the pointer at different depths.
  * The CSS steps live under "Hero entrance" in styles.css; the headline uses HeadlineReveal.
  */
 export function Hero({ primaryCtaRef }: { primaryCtaRef: React.Ref<HTMLAnchorElement> }) {
   const reducedMotion = useReducedMotion();
+  const panelRef = useRef<HTMLDivElement>(null);
+  usePointerDepth(panelRef);
 
   return (
     // The outer frame of coastline photography with an inset dark panel mirrors the physical card.
     <header className="hero frame" id="top">
-      <div className="hero__panel panel">
+      <div className="hero__panel panel" ref={panelRef}>
         <div className="hero__dawn" aria-hidden="true" />
         <div className="hero__light" aria-hidden="true">
           {!reducedMotion && (
@@ -102,31 +107,39 @@ export function Hero({ primaryCtaRef }: { primaryCtaRef: React.Ref<HTMLAnchorEle
           </div>
 
           <div className="hero__copy">
-            <div className="hero__person enter enter--3">
-              <p>
-                <span className="hero__name">{owner.displayName}</span>
-                <span className="hero__title">
-                  {owner.title}, {business.shortName}
-                </span>
+            {/* Only the introduction recedes on scroll; the contact actions never dim. */}
+            <div className="hero__intro">
+              <div className="hero__person enter enter--2">
+                <p>
+                  <span className="hero__name">{owner.displayName}</span>
+                  <span className="hero__title">
+                    {owner.title}, {business.shortName}
+                  </span>
+                </p>
+                <a className="hero__social" href={instagram.href} target="_blank" rel="noopener noreferrer">
+                  <InstagramIcon size={16} />
+                  <span>Instagram</span>
+                  <span className="visually-hidden"> {instagram.handle} (opens in a new tab)</span>
+                </a>
+              </div>
+              <HeadlineReveal className="hero__headline" delay={0.45}>
+                Refined property management, delivered with <em>precision.</em>
+              </HeadlineReveal>
+              <p className="hero__lede enter enter--3">
+                A tailored, hands-on service for property owners who value discretion — from finding the right tenant to
+                rent, maintenance and reporting.
               </p>
-              <a className="hero__social" href={instagram.href} target="_blank" rel="noopener noreferrer">
-                <InstagramIcon size={16} />
-                <span>Instagram</span>
-                <span className="visually-hidden"> {instagram.handle} (opens in a new tab)</span>
-              </a>
             </div>
-            <HeadlineReveal className="hero__headline">
-              Refined property management, delivered with <em>precision.</em>
-            </HeadlineReveal>
-            <p className="hero__lede enter enter--3">
-              A tailored, hands-on service for property owners who value discretion — from finding the right tenant to
-              rent, maintenance and reporting.
-            </p>
             <div className="enter enter--4">
               <ContactActions tone="dark" primaryRef={primaryCtaRef} />
             </div>
           </div>
         </div>
+
+        <a className="hero__explore enter enter--5" href="#about">
+          <span>Explore</span>
+          <ArrowDown size={16} aria-hidden="true" />
+        </a>
       </div>
     </header>
   );
