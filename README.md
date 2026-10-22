@@ -39,7 +39,7 @@ All visible copy lives in `src/i18n/content.ts` (English source, French translat
 
 ## Print: QR code
 
-`print/` holds a square QR code that opens the site (`siteUrl` in `src/config/contact.ts`), with the KG logo at its centre:
+`print/` holds a square QR code that opens the site (`siteUrl` in `src/config/contact.ts`), with the KG logo at its centre. No link is printed; the code alone carries it:
 
 - `kg-qr-square-print.pdf` / `.png`: 100 × 100 mm plus 3 mm bleed (106 × 106 mm) at 300 dpi. Send this file to the printer.
 - `kg-qr-square.png`: the trimmed square, for screens or social posts.
