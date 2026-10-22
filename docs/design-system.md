@@ -49,6 +49,7 @@ Rejected from the generated system: glassmorphism (the brief says no, and it add
 ## Imagery
 
 - Portrait: cut out locally with rembg (BiRefNet portrait model), then edge-decontaminated so no grey wall shows at the edges. On mobile it is cropped head-to-waist with a gradient mask that dissolves into the panel. The original file is untouched in `source-assets/`.
+- Terrace: the brochure's "Our services" photograph, cropped clear of its printed logo and slightly desaturated. It sets the scene beside the services and is never presented as a listing.
 - Coastline texture: the brochure cover photograph, with the baked-in logo and strapline removed. It only ever shows as the frame.
 - Logo: keyed out of the brochure cover (no vector was supplied). It is only placed on dark surfaces, because the pale "KG" letterforms lose contrast on sand.
 
@@ -56,14 +57,22 @@ Rejected from the generated system: glassmorphism (the brief says no, and it add
 
 Taken from the brochure, not added as decoration. The brochure moves from the dark aerial coastline on its cover to the sunlit beach on its "About us" page, and the page follows the same arc. It opens on the dark coastline panel and, after the services, crosses a sea-mist gradient into the brochure's beach photograph, which fades in from the mist with no hard edge. The brochure line "Our hands-on approach…" sits above it as a quote. The contact panel then closes the page in the same frame as the hero. The palette gains one colour, `--mist`. Turquoise appears only inside the photograph.
 
-## Motion (React Bits)
+## Motion
 
-- `LightRays`: a warm (#f3dfae), slow, low-intensity shaft of light from the top right of the hero, like sun through water. It loads lazily as its own 5 kB chunk, renders at 1× pixel ratio, pauses when off screen or in a hidden tab, and is not rendered at all with `prefers-reduced-motion`. Pointer-following, cursor shadow and click pulses are switched off.
-- `FadeContent`: the portrait "develops" from greyscale on load. The name, headline and lede settle in with a short blur and stagger (0.8s). The principles and service stages fade in on scroll. The WhatsApp, Call and Save buttons are never animated.
-- `GlareHover`: a single soft glint passes over the re-set business card when it scrolls into view (once), and again on hover, like light on a laminated card.
-- CSS only: underline draw on nav and Instagram links, a colour shift on service titles when hovered, button press scale. Timing is 160–240ms.
+One language: deceleration easing (`cubic-bezier(0.22, 1, 0.36, 1)`), 160–240ms for feedback and 0.6–1.1s for reveals. Every effect plays once.
 
-With `prefers-reduced-motion`, everything renders in its final state.
+- **Hero entrance (about 1.4s, usable from the first frame).** The warm colour field settles while the sunlight opens. The portrait unveils top-down as the gold ring draws around it. The name follows, then the headline rises line by line (GSAP SplitText, reverted afterwards), then the lede and contact actions. A single sheen crosses the WhatsApp button, and an Explore link nudges twice.
+- **React Bits `LightRays`.** Warm sunlight in the hero. It is lazy-loaded, renders at 1× pixel ratio, pauses off screen and is absent under reduced motion.
+- **React Bits `GlareHover`.** One glint over the re-set business card.
+- **Scroll reveals (`Reveal.tsx`).** IntersectionObserver with CSS transitions, using rise, stagger or an upward wipe. Content is visible by default and only armed when it starts below the fold. The wipe clips children, never the observed element.
+- **Scroll-linked (native CSS scroll timelines, no listeners).**
+  - The hero introduction recedes and the portrait drifts as the hero leaves; the contact actions never dim.
+  - The services terrace image unveils from the top and drifts.
+  - The beach opens from a framed inset to full width.
+
+  Browsers without support show the static composition.
+- **Desktop only.** Pointer depth moves the light, ring and portrait by different amounts. There are no device-motion permissions and nothing happens on touch.
+- **Tactile.** Pressed states on every control. WhatsApp shows "Opening WhatsApp…" with a short vibration where supported. Save contact shows "Contact card ready". Service stages open and close in a timeline accordion.
 
 ## Accessibility
 

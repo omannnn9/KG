@@ -432,7 +432,7 @@ a {
   position: relative;
   display: flex;
   justify-content: center;
-  height: clamp(220px, 33svh, 360px);
+  height: clamp(250px, 39svh, 400px);
   overflow: hidden;
   -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
@@ -453,7 +453,7 @@ a {
 
 .hero__portrait-reveal {
   position: relative;
-  width: clamp(200px, 58vw, 270px);
+  width: clamp(220px, 64vw, 300px);
 }
 
 .hero__portrait img {
@@ -464,8 +464,8 @@ a {
 .hero__copy {
   position: relative;
   z-index: 1;
-  padding: 0 var(--gutter) var(--space-7);
-  margin-top: calc(-1 * var(--space-6));
+  padding: 0 var(--gutter) var(--space-6);
+  margin-top: calc(-1 * var(--space-8));
 }
 
 .hero__person {
@@ -479,9 +479,8 @@ a {
 
 .hero__person p {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--space-1) var(--space-3);
+  flex-direction: column;
+  gap: 2px;
 }
 
 .hero__social {
@@ -517,12 +516,20 @@ a {
 }
 
 .hero__name {
-  font-weight: 650;
   color: var(--paper);
+  font-family: var(--font-display);
+  font-size: 1.625rem;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.005em;
 }
 
 .hero__title {
-  color: var(--seaglass);
+  color: var(--gold-300);
+  font-size: var(--step-xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .hero__headline {
@@ -873,18 +880,27 @@ a {
 }
 
 .additional__list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: var(--space-2) var(--space-6);
 }
 
 .additional__item {
-  padding: var(--space-2) var(--space-4);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: rgb(250 247 241 / 0.7);
-  font-size: var(--step-sm);
-  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-display);
+  font-size: 1.1875rem;
+  line-height: 1.5;
+}
+
+.additional__item::before {
+  content: '';
+  flex: none;
+  width: 5px;
+  height: 5px;
+  background: var(--gold-400);
+  transform: rotate(45deg);
 }
 
 .additional__note {
@@ -1652,20 +1668,22 @@ button {
   transform: translateY(var(--reveal-distance));
 }
 
-[data-reveal='armed'][data-reveal-variant='wipe'] {
+/* The wipe clips the children, never the observed element itself: a clipped target can read as
+   not intersecting, which once left the brochure quote hidden for good. */
+[data-reveal='armed'][data-reveal-variant='wipe'] > * {
   clip-path: inset(100% 0 0 0);
   transform: translateY(var(--reveal-distance));
 }
 
 [data-reveal='shown'][data-reveal-variant='rise'],
-[data-reveal='shown'][data-reveal-variant='wipe'] {
+[data-reveal='shown'][data-reveal-variant='wipe'] > * {
   transition:
     opacity var(--reveal-duration) var(--ease-out) var(--reveal-delay),
     transform var(--reveal-duration) var(--ease-out) var(--reveal-delay),
     clip-path var(--reveal-duration) var(--ease-out) var(--reveal-delay);
 }
 
-[data-reveal='shown'][data-reveal-variant='wipe'] {
+[data-reveal='shown'][data-reveal-variant='wipe'] > * {
   clip-path: inset(0 0 -20% 0);
 }
 
@@ -1674,4 +1692,92 @@ button {
     opacity var(--reveal-duration) var(--ease-out),
     transform var(--reveal-duration) var(--ease-out);
   transition-delay: calc(var(--reveal-delay) + var(--i, 0) * var(--reveal-stagger));
+}
+
+/* Services: brochure terrace photograph beside the timeline. */
+.services__figure {
+  margin: 0 0 var(--space-7);
+  overflow: hidden;
+}
+
+.services__figure img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 5 / 4;
+  object-fit: cover;
+  object-position: 40% 60%;
+}
+
+@media (min-width: 820px) {
+  .services__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    grid-template-areas:
+      'head figure'
+      'timeline figure'
+      'additional additional';
+    column-gap: var(--space-8);
+    align-items: start;
+  }
+
+  .services__head {
+    grid-area: head;
+    grid-template-columns: 1fr;
+  }
+
+  .services__head .eyebrow {
+    grid-column: auto;
+  }
+
+  .timeline {
+    grid-area: timeline;
+  }
+
+  .services__figure {
+    grid-area: figure;
+    margin: 0;
+  }
+
+  .services__figure img {
+    aspect-ratio: 4 / 5;
+  }
+
+  .additional {
+    grid-area: additional;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Unveils from the top as it arrives (the beach later opens from the sides instead). */
+    .services__figure {
+      animation: figure-unveil linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 40%;
+    }
+
+    .services__figure img {
+      animation: figure-drift linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+  }
+}
+
+@keyframes figure-unveil {
+  from {
+    clip-path: inset(22% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes figure-drift {
+  from {
+    transform: scale(1.12) translateY(-4%);
+  }
+  to {
+    transform: scale(1.12) translateY(4%);
+  }
 }

@@ -62,6 +62,21 @@ export function Services() {
           </p>
         </Reveal>
 
+        {/* Brochure photograph ("Our services" page), cropped clear of its printed logo. It sets the scene
+            and is not presented as a KG listing. It unveils and drifts with the scroll (CSS view timeline). */}
+        <figure className="services__figure">
+          <img
+            src={`${import.meta.env.BASE_URL}images/terrace-640.webp`}
+            srcSet={`${import.meta.env.BASE_URL}images/terrace-640.webp 640w, ${import.meta.env.BASE_URL}images/terrace-1000.webp 1000w`}
+            sizes="(min-width: 820px) 40vw, 100vw"
+            width="1000"
+            height="1000"
+            alt="A shaded terrace beside an infinity pool, looking out to sea."
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+
         <Reveal className="timeline" stagger={0.08} distance={20}>
           {stages.map((stage, index) => {
             const isOpen = open === index;
@@ -105,7 +120,7 @@ export function Services() {
 
         <div className="additional">
           <h3 className="additional__title">Additional services</h3>
-          <Reveal className="additional__list" role="list" stagger={0.04} distance={14} duration={0.6}>
+          <Reveal className="additional__list" role="list" stagger={0.05} distance={12} duration={0.6}>
             {additional.map(item => (
               <span className="additional__item" role="listitem" key={item}>
                 {item}
