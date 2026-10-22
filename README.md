@@ -37,12 +37,12 @@ The output is a static site, so any static host works. Two things to check after
 
 All visible copy lives in `src/i18n/content.ts` (English source, French translation). The EN/FR switch sits in the top bar. The choice is remembered on the device, and a French browser starts in French. The WhatsApp introduction and email subject follow the active language. Ketan should review the French before relying on it.
 
-## Print: QR code for the back of the card
+## Print: QR code
 
-`print/` holds the back of the business card with a QR code that opens the site (`siteUrl` in `src/config/contact.ts`):
+`print/` holds a square QR code that opens the site (`siteUrl` in `src/config/contact.ts`), with the KG logo at its centre:
 
-- `kg-card-back-qr-print.pdf` / `.png`: 85 × 55 mm card plus 3 mm bleed (91 × 61 mm) at 300 dpi. Send this file to the printer.
-- `kg-card-back-qr-trimmed.png`: the card as it looks once cut.
-- `kg-card-back-qr-preview.png`: an on-screen mockup.
+- `kg-qr-square-print.pdf` / `.png`: 100 × 100 mm plus 3 mm bleed (106 × 106 mm) at 300 dpi. Send this file to the printer.
+- `kg-qr-square.png`: the trimmed square, for screens or social posts.
+- `kg-qr-square-preview.png`: an on-screen mockup.
 
-The QR uses error correction H, dark modules on an ivory tile and a 4-module quiet zone. It has been decoded by machine to `https://kg-liart.vercel.app/`. If the site moves to its own domain, regenerate the code so printed cards keep working, and test-scan a printed proof before ordering a full run.
+The code uses error correction H, so it can carry the logo. Modules are dark on an ivory tile with a 4-module quiet zone. It has been decoded by machine to `https://kg-liart.vercel.app/`, including when scaled down. If the site moves to its own domain, regenerate the code, and test-scan a printed proof before ordering a full run.
