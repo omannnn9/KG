@@ -2,67 +2,30 @@ import { useId, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { Reveal } from '../components/Reveal';
 import { SectionTitle } from '../components/SectionTitle';
+import { useLanguage } from '../i18n/useLanguage';
 
-// The eleven services from the brochure's "Our services" page, grouped by when an owner needs them.
-// Item names are kept as printed; the group summaries only describe what the items already say.
-const stages = [
-  {
-    title: 'Before the tenancy',
-    summary: 'Getting the property ready to let and finding the right people to live in it.',
-    items: ['Property set-up', 'Tenant sourcing & screening'],
-  },
-  {
-    title: 'During the tenancy',
-    summary: 'The lease and the tenant relationship, handled from the first day to the last.',
-    items: ['Lease management', 'Check-in and check-out handling', 'Tenant support'],
-  },
-  {
-    title: 'Day-to-day care',
-    summary: 'The running of the property, including the periods when it stands empty.',
-    items: [
-      'Rent collection',
-      'Utilities & charges management',
-      'Maintenance coordination',
-      'Property inspections',
-      'Vacant property supervision',
-    ],
-  },
-  {
-    title: 'Keeping owners informed',
-    summary: 'A clear picture of how the property is being looked after.',
-    items: ['Owner reporting'],
-  },
-];
-
-// From the brochure's "Additional services" page. The brochure marks Expatriation with an
-// asterisk but does not print the footnote, so the page asks visitors to enquire.
-const additional = [
-  'Licensing and permits',
-  'Property photo shoot',
-  'Company set-up',
-  'Accounting services',
-  'Expatriation*',
-];
+// The eleven services from the brochure's "Our services" page, grouped by when an owner needs them,
+// and its "Additional services" page. Copy (EN/FR) lives in src/i18n/content.ts; the brochure marks
+// Expatriation with an asterisk but prints no footnote, so the page asks visitors to enquire.
 
 export function Services() {
   // The stages read as a timeline of a tenancy. One is open at a time; the first starts open
   // so the section never looks empty, and every stage is one tap (or Enter/Space) away.
   const [open, setOpen] = useState(0);
+  const { t } = useLanguage();
   const baseId = useId();
 
   return (
     <section className="section services" id="services" aria-labelledby="services-title">
       <div className="container services__layout">
         <Reveal className="services__head" stagger={0.07}>
-          <p className="eyebrow">Services</p>
-          <SectionTitle id="services-title">What KG takes care of</SectionTitle>
-          <p className="services__intro">
-            One point of contact for the full life of a rental — so the owner never has to manage the details alone.
-          </p>
+          <p className="eyebrow">{t.services.eyebrow}</p>
+          <SectionTitle id="services-title">{t.services.title}</SectionTitle>
+          <p className="services__intro">{t.services.intro}</p>
         </Reveal>
 
         <Reveal className="timeline" stagger={0.08} distance={20}>
-          {stages.map((stage, index) => {
+          {t.services.stages.map((stage, index) => {
             const isOpen = open === index;
             const panelId = `${baseId}-panel-${index}`;
             const buttonId = `${baseId}-button-${index}`;
@@ -81,9 +44,7 @@ export function Services() {
                       {String(index + 1).padStart(2, '0')}
                     </span>
                     <span className="stage__title">{stage.title}</span>
-                    <span className="stage__count">
-                      {stage.items.length} {stage.items.length === 1 ? 'service' : 'services'}
-                    </span>
+                    <span className="stage__count">{t.services.count(stage.items.length)}</span>
                     <ChevronDown className="stage__chevron" size={20} aria-hidden="true" />
                   </button>
                 </h3>
@@ -103,15 +64,15 @@ export function Services() {
         </Reveal>
 
         <div className="additional">
-          <h3 className="additional__title">Additional services</h3>
+          <h3 className="additional__title">{t.services.additionalTitle}</h3>
           <Reveal className="additional__list" role="list" stagger={0.05} distance={12} duration={0.6}>
-            {additional.map(item => (
+            {t.services.additional.map(item => (
               <span className="additional__item" role="listitem" key={item}>
                 {item}
               </span>
             ))}
           </Reveal>
-          <p className="additional__note">*Ask Ketan for details on expatriation services.</p>
+          <p className="additional__note">{t.services.note}</p>
         </div>
       </div>
     </section>

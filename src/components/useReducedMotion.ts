@@ -13,6 +13,6 @@ export function useReducedMotion() {
   return useSyncExternalStore(
     subscribe,
     () => window.matchMedia(QUERY).matches,
-    () => true
+    () => true,
   );
 }

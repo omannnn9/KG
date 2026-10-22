@@ -1,5 +1,6 @@
 import { useEffect, useState, type RefObject } from 'react';
-import { whatsapp } from '../config/contact';
+import { whatsappLink } from '../config/contact';
+import { useLanguage } from '../i18n/useLanguage';
 import { WhatsAppIcon } from './WhatsAppIcon';
 
 /**
@@ -9,6 +10,7 @@ import { WhatsAppIcon } from './WhatsAppIcon';
  */
 export function FloatingWhatsApp({ watch }: { watch: RefObject<HTMLElement | null>[] }) {
   const [visible, setVisible] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const targets = watch.map(ref => ref.current).filter((el): el is HTMLElement => Boolean(el));
@@ -26,16 +28,16 @@ export function FloatingWhatsApp({ watch }: { watch: RefObject<HTMLElement | nul
     <a
       className="floating-wa"
       data-visible={visible}
-      href={whatsapp.href}
+      href={whatsappLink(t.whatsappMessage)}
       target="_blank"
       rel="noopener noreferrer"
       aria-hidden={!visible}
       tabIndex={visible ? 0 : -1}
     >
       <WhatsAppIcon size={22} />
-      <span className="floating-wa__long">Message Ketan on WhatsApp</span>
-      <span className="floating-wa__short">WhatsApp</span>
-      <span className="visually-hidden"> (opens WhatsApp)</span>
+      <span className="floating-wa__long">{t.floating.long}</span>
+      <span className="floating-wa__short">{t.floating.short}</span>
+      <span className="visually-hidden"> {t.floating.sr}</span>
     </a>
   );
 }

@@ -1,4 +1,5 @@
 import { Reveal } from '../components/Reveal';
+import { useLanguage } from '../i18n/useLanguage';
 
 const img = (path: string) => `${import.meta.env.BASE_URL}images/${path}`;
 
@@ -6,16 +7,14 @@ const img = (path: string) => `${import.meta.env.BASE_URL}images/${path}`;
 // the brochure's "About us" page, cropped to leave out the logo that is printed on it. The line is
 // quoted from the brochure's "Why choose us" page.
 export function Interlude() {
+  const { t } = useLanguage();
   return (
-    <section className="interlude" aria-label="KG Rentals approach">
+    <section className="interlude" aria-label={t.interlude.label}>
       <div className="container">
         {/* The one wipe on the page: the brochure's own words, drawn up like a tide line. */}
         <Reveal wipe="up" distance={12} duration={1.1} threshold={0.2}>
           <blockquote className="interlude__quote">
-            <p>
-              “Our hands-on approach allows owners to enjoy peace of mind while we handle every operational detail with
-              precision and care.”
-            </p>
+            <p>{t.interlude.quote}</p>
             <footer>KG Rentals &amp; Property Management</footer>
           </blockquote>
         </Reveal>
@@ -28,7 +27,7 @@ export function Interlude() {
           src={img('coast-beach-1280.webp')}
           width="1280"
           height="692"
-          alt="A quiet beach with palm trees leaning over clear, shallow water."
+          alt={t.interlude.alt}
           loading="lazy"
           decoding="async"
         />

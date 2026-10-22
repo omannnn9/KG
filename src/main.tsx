@@ -5,12 +5,15 @@ import '@fontsource-variable/newsreader/wght-italic.css';
 import '@fontsource-variable/figtree/wght.css';
 import './styles.css';
 import App from './App';
+import { LanguageProvider } from './i18n/LanguageProvider';
 
 // Lets iOS Safari apply :active pressed states to links and buttons.
 document.addEventListener('touchstart', () => {}, { passive: true });
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
-  </StrictMode>
+    <LanguageProvider>
+      <App />
+    </LanguageProvider>
+  </StrictMode>,
 );

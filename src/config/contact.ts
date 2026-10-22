@@ -20,24 +20,25 @@ export const owner = {
 const COUNTRY_CODE = '230';
 const LOCAL_NUMBER = '57262266';
 
-const WHATSAPP_MESSAGE =
-  'Hello Ketan, I found the KG Rentals page and would like to enquire about your property management services.';
-
 export const phone = {
   e164: `+${COUNTRY_CODE}${LOCAL_NUMBER}`,
   display: `+${COUNTRY_CODE} ${LOCAL_NUMBER.slice(0, 4)} ${LOCAL_NUMBER.slice(4)}`,
   href: `tel:+${COUNTRY_CODE}${LOCAL_NUMBER}`,
 } as const;
 
-export const whatsapp = {
-  href: `https://wa.me/${COUNTRY_CODE}${LOCAL_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`,
-  message: WHATSAPP_MESSAGE,
-} as const;
+/** Click-to-chat link with an URL-encoded introduction; the message text comes from the active language. */
+export const whatsappLink = (message: string) =>
+  `https://wa.me/${COUNTRY_CODE}${LOCAL_NUMBER}?text=${encodeURIComponent(message)}`;
 
 export const email = {
   address: 'kgrentals.mu@gmail.com',
-  href: `mailto:kgrentals.mu@gmail.com?subject=${encodeURIComponent('Property management enquiry')}`,
 } as const;
+
+/** mailto link with a subject line in the active language. */
+export const emailLink = (subject: string) => `mailto:${email.address}?subject=${encodeURIComponent(subject)}`;
+
+/** Public address of the site (used by the printed QR code and as the share fallback). */
+export const siteUrl = 'https://kg-liart.vercel.app/';
 
 export const vcard = {
   fileName: 'ketan-gungah-kg-rentals.vcf',
